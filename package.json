@@ -1,0 +1,28 @@
+{
+  "name": "eoscompiler",
+  "version": "1.0.0",
+  "description": "EOS on-line compiler",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "eos",
+    "compiler",
+    "cpp",
+    "c",
+    "blockchain",
+    "smart",
+    "contract"
+  ],
+  "author": "Rodolfo Pereira Araujo, Tulio Gomes",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "child-process-promise": "^2.2.1",
+    "express": "^4.16.4",
+    "method-override": "^3.0.0",
+    "mongoose": "~5.3.12",
+    "morgan": "^1.9.1"
+  }
+}
