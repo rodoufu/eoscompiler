@@ -38,9 +38,19 @@ function mainController($scope, $http) {
     $scope.compileCode = function () {
         $http.post('/api/contract/compileCode', {"text": btoa(editor.getValue())})
             .success(function (data) {
-                $('#output').val(atob(data.stderr) + '\n' + atob(data.stdout));
-                $('#abi').text(atob(data.abi));
-                hljs.highlightBlock($('#abi'));
+                if (data.stderr) {
+                    $('#output').val(atob(data.stderr));
+                }
+                if (data.stdout) {
+                    $('#output').val(atob(data.stdout));
+                }
+                if (data.error) {
+                    $('#output').val(atob(data.error));
+                }
+                if (data.abi) {
+                    $('#abi').text(atob(data.abi));
+                    hljs.highlightBlock($('#abi'));
+                }
             })
             .error(function (data) {
                 console.log('Error: ' + data);

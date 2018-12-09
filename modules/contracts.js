@@ -36,7 +36,7 @@ module.exports = {
         } else {
             var tempFolder = './temp/';
             var tempName = "teste";
-            fs.writeFile(tempFolder + tempName + ".cpp", util.fromBase64(data), function (err) {
+            fs.writeFile(tempFolder + tempName + ".cpp", data, function (err) {
                     if (err) {
                         respData.error = util.toBase64(err);
                         callback(respData);
@@ -58,7 +58,7 @@ module.exports = {
                                 });
                             })
                             .catch(function (err) {
-                                respData.error = util.toBase64(err);
+                                respData.error = util.toBase64(err.message);
                                 callback(respData);
                             });
                     }
