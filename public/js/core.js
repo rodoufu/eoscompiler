@@ -1,43 +1,43 @@
-var eosCompiler = angular.module('eosCompiler', []);
+const eosCompiler = angular.module('eosCompiler', []);
 
 function mainController($scope, $http) {
     $scope.formData = {};
 
     $http.get('/api/todos')
-        .success(function (data) {
+        .success((data) => {
             $scope.todos = data;
             console.log(data);
         })
-        .error(function (data) {
+        .error((data) => {
             console.log('Error: ' + data);
         });
 
-    $scope.createTodo = function () {
+    $scope.createTodo = () => {
         $http.post('/api/todos', $scope.formData)
-            .success(function (data) {
+            .success((data) => {
                 $scope.formData = {};
                 $scope.todos = data;
                 console.log(data);
             })
-            .error(function (data) {
+            .error((data) => {
                 console.log('Error: ' + data);
             });
     };
 
-    $scope.deleteTodo = function (id) {
+    $scope.deleteTodo = (id) => {
         $http.delete('/api/todos/' + id)
-            .success(function (data) {
+            .success((data) => {
                 $scope.todos = data;
                 console.log(data);
             })
-            .error(function (data) {
+            .error((data) => {
                 console.log('Error: ' + data);
             });
     };
 
-    $scope.compileCode = function () {
+    $scope.compileCode = () => {
         $http.post('/api/contract/compileCode', {"text": btoa(editor.getValue())})
-            .success(function (data) {
+            .success((data) => {
                 if (data.stderr) {
                     $('#output').val(atob(data.stderr));
                 }
@@ -48,11 +48,13 @@ function mainController($scope, $http) {
                     $('#output').val(atob(data.error));
                 }
                 if (data.abi) {
-                    $('#abi').text(atob(data.abi));
-                    hljs.highlightBlock($('#abi'));
+                    let abiPlace = $('#abi');
+                    $(abiPlace).empty();
+                    $(abiPlace).text(atob(data.abi));
+                    // hljs.highlightBlock(abiPlace);
                 }
             })
-            .error(function (data) {
+            .error((data) => {
                 console.log('Error: ' + data);
             });
     };

@@ -4,14 +4,13 @@
 using namespace eosio;
 
 class hello : public contract {
-public:
-    using contract::contract;
+  public:
+      using contract::contract;
 
-    [[eosio::action]]
-    void hi(account_name user) {
-        require_auth( user );
-        print("Hello, ", name{user});
-    }
+      [[eosio::action]]
+      void hi( name user ) {
+         print( "Hello, ", user);
+      }
 };
 
-EOSIO_ABI( hello, (hi))
+EOSIO_DISPATCH( hello, (hi))
