@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EOS on-line compiler</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/default.min.css">
+    <link rel="stylesheet" href="css/page.css">
+</head>
+<body >
+
+<ul>
+    <li>
+        <h3>titulo 1</h3>
+        <div>
+            <p>conteudo1</p>
+        </div>
+    </li>
+    <li>
+        <h3>titulo 2</h3>
+        <div>
+            <p>conteudo2</p>
+        </div>
+    </li>
+    <li>
+        <h3>titulo 3</h3>
+        <div>
+            <p>conteudo3</p>
+        </div>
+    </li>
+</ul>
+
+<form>
+    <input value="1">
+    <input value="3">
+    <input value="2">
+</form>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script>
+$(document).ready(function () {
+    $("li div").hide();
+    $("li h3").click(function () {
+        $("li div").hide();
+        $(this).parent().find("div").show();
+    });
+
+    $('form input').change(function () {
+        $(this).css('border-color', function () {
+            return isNaN($(this).val()) || $(this).val() == "" ? 'red' : 'green';
+        })
+    });
+});
+</script>
+</body>
+</html>

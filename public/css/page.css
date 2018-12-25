@@ -1,16 +1,9 @@
-html {
-    overflow-y: scroll;
-}
-
-body {
-    padding-top: 50px;
-}
-
-#todo-list {
-    margin-bottom: 30px;
+#editorContainer {
+    height: 80vh;
 }
 
 #editor {
-    width: 500px;
-    height: 400px;
+    width: 100%;
+    height: 100%;
+    position: relative;
 }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="eosCompiler">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EOS on-line compiler</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/default.min.css">
+    <link rel="stylesheet" href="css/page.css">
+</head>
+<body ng-controller="mainController">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 text-center">
+            <div class="form-group">
+                <div id="editor" ng-model="contract_text"></div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg" ng-click="compileCode()">Compile</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <h4>Output messages:</h4>
+        <div class="col-sm-8 col-sm-offset-2 text-center">
+            <textarea rows="20" cols="80" readonly="readonly" id="output"></textarea>
+        </div>
+    </div>
+
+    <div class="row">
+        <h4>ABI:</h4>
+        <div class="col-sm-8 col-sm-offset-2 text-center">
+            <pre><code id="abi" class="json"></code></pre>
+        </div>
+    </div>
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script src="//ace.c9.io/build/src/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/core.js"></script>
+<script src="js/page.js"></script>
+</body>
+</html>
