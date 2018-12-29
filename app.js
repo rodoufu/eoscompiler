@@ -8,32 +8,12 @@ const methodOverride = require('method-override');
 // Configuration
 // mongoose.connect('mongodb://node:nodeuser@mongo.onmodulus.net:27017/uwO3mypu');
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(`${__dirname}/public`));
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({'extended': 'true'}));
 app.use(bodyParser.json());
 app.use(bodyParser.json({type: 'application/vnd.api+json'}));
 app.use(methodOverride());
-
-
-let todos = [{"text": "123"}, {"text": 'oi'}, {"text": "1"}, {"text": 'ola'}];
-
-app.get('/api/todos', (req, res) => {
-    res.json(todos);
-});
-
-app.post('/api/todos/', (req, res) => {
-    let text = req.body.text;
-    console.log("Selected id to save: " + text);
-    todos.push({"text": text});
-    res.json(todos);
-});
-
-app.delete('/api/todos/:todo_id', (req, res) => {
-    let id = req.params.todo_id;
-    console.log("Selected id to delete: " + id);
-    res.json(todos);
-});
 
 const contracts = require('./modules/contracts');
 app.get('/api/contract/:contract_id', (req, res) => {

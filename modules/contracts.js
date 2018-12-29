@@ -1,4 +1,5 @@
 const fs = require('fs');
+const randomstring = require('randomstring');
 const exec = require('child-process-promise').exec;
 const contractsMap = {
     0: 'hello.cpp',
@@ -9,13 +10,13 @@ const util = require('./util');
 let compileCodeMock = false;
 
 module.exports = {
-    readContract: function (id, callback) {
-        fs.readFile('./contracts/' + contractsMap[id], 'utf-8', (err, data) => {
+    readContract: (id, callback) => {
+        fs.readFile(`./contracts/${contractsMap[id]}`, 'utf-8', (err, data) => {
             if (err) throw err;
             callback(util.toBase64(data));
         });
     },
-    compileCode: function (data, callback) {
+    compileCode: (data, callback) => {
         let respData = {error: null, stderr: null, stdout: null, abi: null};
 
         if (compileCodeMock) {
@@ -34,11 +35,12 @@ module.exports = {
                     break;
             }
         } else {
-            exec('docker run --rm -w /home/eoscompiler/ eoscompiler:0.0.1 ./compile.sh ' + util.toBase64(data))
+            // 'docker run --rm -w /home/eoscompiler/ eoscompiler:0.0.1 ./compile.sh ' + util.toBase64(data)
+            exec(`docker-compose run eosCompiler ./compile.sh ${randomstring.generate(10)} ${util.toBase64(data)}`)
                 .then((result) => {
                     console.log(result.stdout);
                     let resp = JSON.parse(util.fromBase64(result.stdout));
-                    console.log(resp);
+                    // console.log(resp);
                     callback(resp);
                 })
                 .catch((err) => {
