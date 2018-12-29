@@ -33,6 +33,14 @@ function mainController($scope, $http) {
                     $(abiPlace).empty();
                     $(abiPlace).text(atob(data.abi));
                     // hljs.highlightBlock(abiPlace);
+                    $('#abiRow').removeClass('hidden');
+                }
+                if (data.wasm) {
+                    let wasmPlace = $('#wasm');
+                    $(wasmPlace).empty();
+                    $(wasmPlace).text(atob(data.wasm));
+                    // hljs.highlightBlock(abiPlace);
+                    $('#wasmRow').removeClass('hidden');
                 }
             })
             .error((data) => {
@@ -56,10 +64,10 @@ function mainController($scope, $http) {
     };
 
     $scope.downloadAbi = () => {
-        $scope.downloadText('smartcontract.abi', jQuery('#abi').val());
+        $scope.downloadText('smartcontract.abi', jQuery('#abi').text());
     };
 
     $scope.downloadWasm = () => {
-        $scope.downloadText('smartcontract.wasm', jQuery('#wasm').val(), 'application/octet-stream');
+        $scope.downloadText('smartcontract.wasm', jQuery('#wasm').text(), 'application/octet-stream');
     };
 }
