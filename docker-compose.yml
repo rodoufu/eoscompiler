@@ -1,0 +1,8 @@
+version: '3'
+services:
+  eosCompiler:
+    container_name: eosCompiler
+    image: "eoscompiler:0.0.1"
+  eosNode:
+    container_name: eosNode
+    image: "eosnode:0.0.1"
