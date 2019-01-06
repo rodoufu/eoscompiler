@@ -1,6 +1,6 @@
 const test = require('tape');
 const async = require("async");
-const contracts = require('../modules/contracts');
+const contracts = require('../modules/contract');
 const fs = require('fs');
 const encoding = 'utf8';
 

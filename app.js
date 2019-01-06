@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.json({type: 'application/vnd.api+json'}));
 app.use(methodOverride());
 
-const contracts = require('./modules/contracts');
+const contracts = require('./modules/contract');
 app.get('/api/contract/:contract_id', (req, res) => {
     contracts.readContract(req.params.contract_id, (data) => {
         res.send(data);
@@ -24,8 +24,10 @@ app.get('/api/contract/:contract_id', (req, res) => {
 
 const util = require('./modules/util');
 app.post('/api/contract/compileCode', (req, res) => {
-    contracts.compileCode(util.fromBase64(req.body.text), (data) => {
-        res.send(data);
+    contracts.compileCode(util.fromBase64(req.body.text), (err, data) => {
+        if (!err) {
+            res.send(data);
+        }
     });
 });
 
