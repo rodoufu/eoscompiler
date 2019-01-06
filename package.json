@@ -4,7 +4,11 @@
   "description": "EOS on-line compiler",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./test/index.test | tap-spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rodoufu/eoscompiler.git"
   },
   "keywords": [
     "eos",
@@ -17,12 +21,19 @@
   "author": "Rodolfo Pereira Araujo",
   "license": "MIT",
   "dependencies": {
+    "async": "^2.6.1",
     "body-parser": "^1.18.3",
     "child-process-promise": "^2.2.1",
     "express": "^4.16.4",
     "method-override": "^3.0.0",
-    "mongoose": "~5.3.12",
-    "morgan": "^1.9.1",
-    "randomstring": "^1.1.5"
-  }
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "tap-spec": "^5.0.0",
+    "tape": "^4.9.1"
+  },
+  "bugs": {
+    "url": "https://github.com/rodoufu/eoscompiler/issues"
+  },
+  "homepage": "https://github.com/rodoufu/eoscompiler#readme"
 }
