@@ -1,5 +1,4 @@
 const fs = require('fs');
-const randomstring = require('randomstring');
 const exec = require('child-process-promise').exec;
 const contractsMap = {
     0: 'hello.cpp',
@@ -8,6 +7,8 @@ const contractsMap = {
 };
 const util = require('./util');
 let compileCodeMock = false;
+// EOSIO_DISPATCH( addressbook, (upsert)(erase))
+const dispatchPattern = /EOSIO_DISPATCH\(\s*(\w*)\s*,?\s*([\(\)\w]*)\)/;
 
 module.exports = {
     readContract: (id, callback) => {
@@ -15,6 +16,37 @@ module.exports = {
             if (err) throw err;
             callback(util.toBase64(data));
         });
+    },
+    getContractName: (data) => {
+        if (data.match(dispatchPattern)) {
+            const match = dispatchPattern.exec(data);
+            return match[1];
+        } else {
+            return null;
+        }
+    },
+    getContractMethods: (data) => {
+        const methodPattern = /\(\s*(\w*)\)/;
+        if (data.match(dispatchPattern)) {
+            const match = dispatchPattern.exec(data);
+            let str = match[2];
+            let methods = [];
+            let m;
+            while ((m = methodPattern.exec(str)) !== null) {
+                // This is necessary to avoid infinite loops with zero-width matches
+                if (m.index === methodPattern.lastIndex) {
+                    methodPattern.lastIndex++;
+                }
+
+                // The result can be accessed through the `m`-variable.
+                m.forEach((match, groupIndex) => {
+                    methods.push(match);
+                });
+            }
+            return methods;
+        } else {
+            return null;
+        }
     },
     compileCode: (data, callback) => {
         let respData = {error: null, stderr: null, stdout: null, abi: null};
@@ -36,20 +68,22 @@ module.exports = {
             }
         } else {
             // 'docker run --rm -w /home/eoscompiler/ eoscompiler:0.0.1 ./compile.sh ' + util.toBase64(data)
-            exec(`docker-compose run eosCompiler ./compile.sh ${randomstring.generate(10)} ${util.toBase64(data)}`)
-                .then((result) => {
-                    console.log(result.stdout);
-                    let resp = JSON.parse(util.fromBase64(result.stdout));
-                    // console.log(resp);
-                    callback(resp);
-                })
-                .catch((err) => {
-                    if (err) {
-                        respData.error = util.toBase64(err.message);
-                        callback(respData);
-                    }
-                    callback();
-                });
+            const fileName = getContractName(data);
+            if (fileName != null) {
+                exec(`docker-compose run eosCompiler ./compile.sh ${fileName} ${util.toBase64(data)}`)
+                    .then((result) => {
+                        let resp = JSON.parse(util.fromBase64(result.stdout));
+                        // console.log(resp);
+                        callback(resp);
+                    })
+                    .catch((err) => {
+                        if (err) {
+                            respData.error = util.toBase64(err.message);
+                            callback(respData);
+                        }
+                        callback();
+                    });
+            }
         }
     }
 };
