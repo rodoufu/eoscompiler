@@ -25,24 +25,16 @@ module.exports = {
         }
     },
     getContractMethods: (data) => {
-        const methodPattern = /\(\s*(\w*)\)/;
+        const methodPattern = /\(\s*(\w*)\)/g;
         if (data.match(dispatchPattern)) {
             const match = dispatchPattern.exec(data);
-            let str = match[2];
-            let methods = [];
-            let m;
-            while ((m = methodPattern.exec(str)) !== null) {
-                // This is necessary to avoid infinite loops with zero-width matches
-                if (m.index === methodPattern.lastIndex) {
-                    methodPattern.lastIndex++;
-                }
+            let methods = match[2].match(methodPattern);
+            let resp = [];
 
-                // The result can be accessed through the `m`-variable.
-                m.forEach((match, groupIndex) => {
-                    methods.push(match);
-                });
+            for (let i = 0; i < methods.length; i++) {
+                resp.push(methods[i].substr(1, methods[i].length - 2));
             }
-            return methods;
+            return resp;
         } else {
             return null;
         }
