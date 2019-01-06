@@ -10,12 +10,22 @@ const container = require('./container');
 const dispatchPattern = /EOSIO_DISPATCH\(\s*(\w*)\s*,?\s*([\(\)\w]*)\)/;
 
 const Contract = {
+    /**
+     * Get a contract from the server.
+     * @param id The contratc id.
+     * @param callback Defaul callback.
+     */
     readContract: (id, callback) => {
         fs.readFile(`./contracts/${contractsMap[id]}`, 'utf-8', (err, data) => {
             if (err) throw err;
             callback(util.toBase64(data));
         });
     },
+    /**
+     * Find the contract name on a string.
+     * @param data The string to look for the contract name.
+     * @returns {*} The contract name.
+     */
     getContractName: (data) => {
         if (data.match(dispatchPattern)) {
             const match = dispatchPattern.exec(data);
@@ -24,6 +34,11 @@ const Contract = {
             return null;
         }
     },
+    /**
+     * Find the contrat methods on a string.
+     * @param data The string to look for the contract methods.
+     * @returns {*} The contrat methods.
+     */
     getContractMethods: (data) => {
         const methodPattern = /\(\s*(\w*)\)/g;
         if (data.match(dispatchPattern)) {
@@ -39,6 +54,11 @@ const Contract = {
             return null;
         }
     },
+    /**
+     * Compile a contract.
+     * @param data The contract to be compiled.
+     * @param callback Default callback;
+     */
     compileCode: (data, callback) => {
         const fileName = Contract.getContractName(data);
         if (fileName) {
