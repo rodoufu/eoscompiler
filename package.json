@@ -25,8 +25,7 @@
     "body-parser": "^1.18.3",
     "child-process-promise": "^2.2.1",
     "express": "^4.16.4",
-    "method-override": "^3.0.0",
-    "morgan": "^1.9.1"
+    "method-override": "^3.0.0"
   },
   "devDependencies": {
     "tap-spec": "^5.0.0",
