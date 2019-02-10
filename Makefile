@@ -1,7 +1,7 @@
 all: test
 
 run: startContainers
-	node app.js
+	nohup node app.js &
 
 test:
 	node ./test/index.test | tap-spec

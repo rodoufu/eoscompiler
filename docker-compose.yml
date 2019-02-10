@@ -4,6 +4,8 @@ services:
     container_name: eosCompiler
     image: "eoscompiler:0.0.1"
   eosNode:
+    stdin_open: true
+    tty: true
     container_name: eosNode
     network_mode: "host"
     image: "eosnode:0.0.1"
